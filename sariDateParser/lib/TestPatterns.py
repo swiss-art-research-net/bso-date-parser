@@ -1,7 +1,10 @@
 try:
     import sariDateParser.lib.constants as constants
 except ImportError:
-    import lib.constants as constants
+    try:
+        import lib.constants as constants
+    except:
+        import constants as constants
 
 afterYearWithQualifier = r'^(' + constants.UNCERTAINTYQUALIFIERS + ')?((?:nach|nicht vor)\s?(_{4})|_{4}-|_{4}-❓{1,2})\??$'
 beforeYearWithQualifier = r'^(' + constants.UNCERTAINTYQUALIFIERS + ')?((?:vor|nicht nach)\s?(_{4})|-_{4}|❓{1,2}-_{4})\??$'

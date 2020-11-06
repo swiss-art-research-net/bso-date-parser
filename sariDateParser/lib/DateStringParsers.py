@@ -3,7 +3,10 @@ import re
 try:
     import sariDateParser.lib.constants as constants
 except ImportError:
-    import constants as constants
+    try:
+         import lib.constants as constants
+    except ImportError:
+        import constants as constants
             
 def afterYearWithQualifier(dateString):
     """
