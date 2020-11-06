@@ -1,14 +1,31 @@
 import re
 
-import sariDateParser.lib.constants as constants
-import sariDateParser.lib.DateStringParsers as DateStringParsers
-import sariDateParser.lib.TestPatterns as TestPatterns
+try:
+    import sariDateParser.lib.constants as constants
+    import sariDateParser.lib.DateStringParsers as DateStringParsers
+    import sariDateParser.lib.TestPatterns as TestPatterns
+except ImportError:
+    import lib.constants as constants
+    import lib.DateStringParsers as DateStringParsers
+    import lib.TestPatterns as TestPatterns
 
 def cleanDateString(dateString):
     s = re.sub('\[|\]', '', dateString)
     return s
 
 def extractPattern(dateString):
+    """Normalises a date string by replacing digits and date terms with placeholders
+
+    >>> extractPattern("10.5.1985")
+    '__._.____'
+
+    >>> extractPattern("10 Mai 1985")
+    '__ 🌕 ____'
+
+    >>> extractPattern("7 9br 1950")
+    '_ 🌕 ____'
+
+    """
     # Remove square brackets that indicate deducted dates
     genericDate = re.sub(r'\[|\]', '', dateString)
 
@@ -61,16 +78,16 @@ def parse(dateString):
     """Parse a date string into EDTF Format.
 
     >>> parse("1751")
-    1751
+    '1751'
 
     >>> parse("[zwischen 1854 und 1861]")
-    1854/1861
+    '1854/1861'
 
     >>> parse("vermutlich um 1856")
-    1856
+    '1856?'
 
     >>> parse("ca. April 1940")
-    4.1940?
+    '4.1940?'
     """
 
     pattern = extractPattern(dateString)

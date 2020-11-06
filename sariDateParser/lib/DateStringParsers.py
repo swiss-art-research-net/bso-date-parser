@@ -1,8 +1,20 @@
 import re
 
-import sariDateParser.lib.constants as constants
+try:
+    import sariDateParser.lib.constants as constants
+except ImportError:
+    import constants as constants
             
 def afterYearWithQualifier(dateString):
+    """
+    Given a string that contains a year, interprets it as after that year
+
+    >>> afterYearWithQualifier("1940")
+    '1940/'
+
+    >>> afterYearWithQualifier("nach 1250?")
+    '1250?/'
+    """
     yearSearch = re.search(r'(\d{4}\??)', dateString)
     if not yearSearch:
         return None
@@ -15,6 +27,15 @@ def afterYearWithQualifier(dateString):
         return year
 
 def beforeYearWithQualifier(dateString):
+    """
+    Given a string that contains a year, interprets it as before that year
+
+    >>> beforeYearWithQualifier("1940")
+    '/1940'
+
+    >>> beforeYearWithQualifier("nach 1250?")
+    '/1250?'
+    """
     yearSearch = re.search(r'(\d{4}\??)', dateString)
     if not yearSearch:
         return None
@@ -27,6 +48,15 @@ def beforeYearWithQualifier(dateString):
         return year
 
 def century(dateString):
+    """
+    Given a string containing one or two digits, interprets it as a century in EDTF format
+
+    >>> century("19. Jahrhundert")
+    '18'
+
+    >>> century("4. Jh.")
+    '3'
+    """
     centurySearch = re.search(r'(\d{1,2})', dateString)
     if not centurySearch:
         return None
@@ -39,7 +69,19 @@ def century(dateString):
         return centuryEDTF
 
 def centuryRange(dateString):
-    centurySearch = re.findall(r'(\d{2})', dateString)
+    """
+    Given a string containing  two groups of digits, interprets it as a range of centuries in EDTF format
+
+    >>> centuryRange("18/19. Jahrhundert")
+    '17/18'
+
+    >>> centuryRange("3/4. Jh.")
+    '2/3'
+
+    >>> centuryRange("9/10. Jh.")
+    '8/9'
+    """
+    centurySearch = re.findall(r'(\d{1,2})', dateString)
     if len(centurySearch) <2:
         return None
     centuryFrom = centurySearch[0]
@@ -53,6 +95,13 @@ def centuryRange(dateString):
         return centuryFromEDTF + "/" + centuryToEDTF
 
 def fullDateWithMonthInLangOrRoman(dateString):
+    """
+    Given a string containing a date with month written as a name or in roman numerals, returns the date in EDTF format
+
+    >>> fullDateWithMonthInLangOrRoman("2 Feb 2020")
+    '2.2.2020'
+
+    """
     allMonthsPattern = '|'.join(constants.ALLMONTHTERMS)
     datePattern = r'(\d{1,2})(?:\.|\s)*(?:' + allMonthsPattern + ')(?:\.|\s)*(?:\d{2,4})'
     yearPattern = r'((\d{2,4})\.?$|\d{4})'
@@ -101,6 +150,8 @@ def midCentury(dateString):
 def monthAndYearWithMonthInLangOrRoman(dateString):
     allMonthsPattern = '|'.join(constants.ALLMONTHTERMS)
     yearPattern = r'((\d{2,4})\.?$|\d{4})'
+    uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
+    qualifier = '?' if uncertain else ''
     try:
         monthWords = re.search(allMonthsPattern, dateString, flags=re.IGNORECASE).group(0)
         month = str(guessMonth(monthWords))
@@ -112,7 +163,7 @@ def monthAndYearWithMonthInLangOrRoman(dateString):
     except:
         return None
     
-    return '.'.join([month, year])
+    return '.'.join([month, year]) + qualifier
 
 def singleDate(dateString):
     date = re.search(r'\d{1,2}\.\d{1,2}\.\d{2,4}', dateString)
@@ -155,3 +206,7 @@ def yearRangeWithQualifier(dateString):
             if not '?' in year:
                 years[i] += '?'
     return "/".join(years)
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
