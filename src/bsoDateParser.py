@@ -61,3 +61,7 @@ def interpret(dateString, pattern):
 def parse(dateString):
     pattern = extractPattern(dateString)
     return interpret(dateString, pattern)
+
+if __name__ == "__main__":
+    import sys
+    print(parse(sys.argv[1]))
