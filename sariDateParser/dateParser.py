@@ -1,9 +1,8 @@
 import re
-import sys
 
-import lib.constants as constants
-import lib.DateStringParsers as DateStringParsers
-import lib.TestPatterns as TestPatterns
+import sariDateParser.lib.constants as constants
+import sariDateParser.lib.DateStringParsers as DateStringParsers
+import sariDateParser.lib.TestPatterns as TestPatterns
 
 def cleanDateString(dateString):
     s = re.sub('\[|\]', '', dateString)
@@ -59,9 +58,24 @@ def interpret(dateString, pattern):
     return None
 
 def parse(dateString):
+    """Parse a date string into EDTF Format.
+
+    >>> parse("1751")
+    1751
+
+    >>> parse("[zwischen 1854 und 1861]")
+    1854/1861
+
+    >>> parse("vermutlich um 1856")
+    1856
+
+    >>> parse("ca. April 1940")
+    4.1940?
+    """
+
     pattern = extractPattern(dateString)
     return interpret(dateString, pattern)
 
-if __name__ == "__main__":
-    import sys
-    print(parse(sys.argv[1]))
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()

@@ -1,6 +1,6 @@
 import re
 
-import lib.constants as constants
+import sariDateParser.lib.constants as constants
             
 def afterYearWithQualifier(dateString):
     yearSearch = re.search(r'(\d{4}\??)', dateString)
