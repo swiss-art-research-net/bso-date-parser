@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
     name="date-parser-sari", # Replace with your own username
-    version="0.7.1",
+    version="0.7.2",
     author="Florian Kräutli",
     author_email="florian.kraeutli@uzh.ch",
     description="A parser for recognising free-text dates",
