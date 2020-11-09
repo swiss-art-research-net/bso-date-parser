@@ -2,9 +2,9 @@
 currentdir=$(pwd)
 if [[ $currentdir =~ "tests" ]]
 then
-    dir=../sariDateParser
+    dir=../src
 else
-    dir=./sariDateParser
+    dir=./src
 fi
 
 echo "Running tests..."
