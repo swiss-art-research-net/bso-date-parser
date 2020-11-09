@@ -1,9 +1,9 @@
 import re
 
 try:
-    import sariDateParser.lib.constants as constants
-    import sariDateParser.lib.DateStringParsers as DateStringParsers
-    import sariDateParser.lib.TestPatterns as TestPatterns
+    import SariDateParser.lib.constants as constants
+    import SariDateParser.lib.DateStringParsers as DateStringParsers
+    import SariDateParser.lib.TestPatterns as TestPatterns
 except ImportError:
     import lib.constants as constants
     import lib.DateStringParsers as DateStringParsers

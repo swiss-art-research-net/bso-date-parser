@@ -1,7 +1,7 @@
 import re
 
 try:
-    import sariDateParser.lib.constants as constants
+    import SariDateParser.lib.constants as constants
 except ImportError:
     try:
          import lib.constants as constants
