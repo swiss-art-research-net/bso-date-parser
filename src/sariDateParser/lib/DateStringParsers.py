@@ -127,6 +127,24 @@ def fullDateWithMonthInLangOrRoman(dateString):
     return '.'.join([date, month, year])
 
 def guessMonth(monthString):
+    """
+    Given a string that contains a (only) term for a month either in text or roman numerals returns the month as a number
+
+    >>> guessMonth("February")
+    '2'
+
+    >>> guessMonth("Okt")
+    '10'
+
+    >>> guessMonth("9br")
+    '11'
+
+    >>> guessMonth("5 January 1910")
+    '0'
+    
+    >>> guessMonth("2.10.10")
+    '0'
+    """
     testOrder = ['de', 'en', 'fr', 'roman']
     monthString = re.sub(r'\.|\s', '', monthString)
     for lang in testOrder:
@@ -134,9 +152,18 @@ def guessMonth(monthString):
             for monthVariation in constants.MONTHTERMS[lang][i]:
                 if monthVariation.lower() == monthString.lower():
                     return i
-    return 0
+    return '0'
     
 def midCentury(dateString):
+    """
+    Given a string that contains a statement about either half of a century, returns a date in EDTF format
+
+    >>> midCentury("2. Hälfte 19. Jahrhundert")
+    '1850/1899'
+
+    >>> midCentury("ca 1. Hälfte 15. Jh.")
+    '1400?/1450?'
+    """
     centurySearch = re.search(r'(\d)\.\s?[A-zäöü]*\s?(\d{1,2})', dateString)
     if not centurySearch:
         return None
@@ -146,11 +173,23 @@ def midCentury(dateString):
     centuryEDTF = str(int(century)-1)
     qualifier = '?' if uncertain else ''
     if half == "1":
-        return century + "00" + qualifier + "/" + century + "50" + qualifier
+        return centuryEDTF + "00" + qualifier + "/" + centuryEDTF + "50" + qualifier
     else:
-        return century + "50" + qualifier + "/" + century + "99" + qualifier
+        return centuryEDTF + "50" + qualifier + "/" + centuryEDTF + "99" + qualifier
 
 def monthAndYearWithMonthInLangOrRoman(dateString):
+    """
+    Given a string containing a date expressed by a month term and a year returns the date in EDTF format
+
+    >>> monthAndYearWithMonthInLangOrRoman("April 1450")
+    '4.1450'
+
+    >>> monthAndYearWithMonthInLangOrRoman("October 2007?")
+    '10.2007?'
+
+    >>> monthAndYearWithMonthInLangOrRoman("VII 1893")
+    '7.1893'
+    """
     allMonthsPattern = '|'.join(constants.ALLMONTHTERMS)
     yearPattern = r'((\d{2,4})\.?$|\d{4})'
     uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
@@ -169,6 +208,19 @@ def monthAndYearWithMonthInLangOrRoman(dateString):
     return '.'.join([month, year]) + qualifier
 
 def singleDate(dateString):
+    """
+    Given a string containing a date expressed in numeric date format, returns it in EDTF
+
+    >>> singleDate("10.4.1983")
+    '10.4.1983'
+
+    >>> singleDate("am 5.10.1930")
+    '5.10.1930'
+
+    >>> singleDate("aufgenommen in Zürich am 30.6.2010 bei Tageslicht")
+    '30.6.2010'
+
+    """
     date = re.search(r'\d{1,2}\.\d{1,2}\.\d{2,4}', dateString)
     if date:
         return date.group(0)
@@ -176,9 +228,30 @@ def singleDate(dateString):
         return None
 
 def singleYearRelaxed(dateString):
+    """
+    Given a string that contains numbers, interprets those numbers as a year and returns it in EDTF
+
+    >>> singleYearRelaxed("1430")
+    '1430'
+
+    >>> singleYearRelaxed("ca. 1830")
+    '1830?'
+
+    >>> singleYearRelaxed("I think it must have been in 1530 because that's when the castle has been built")
+    '1530?'
+    """
     return singleYearWithQualifier(dateString)
     
 def singleYearWithQualifier(dateString):
+    """
+    Given a string that contains four digits interprets it as a year
+    
+    >>> singleYearWithQualifier("1965")
+    '1965'
+
+    >>> singleYearWithQualifier("ca. 1830")
+    '1830?'
+    """
     yearSearch = re.search(r'(\d{4}\??)', dateString)
     if not yearSearch:
         return None
@@ -190,6 +263,18 @@ def singleYearWithQualifier(dateString):
         return year
 
 def yearWithPlaceHolderAndQualifier(dateString):
+    """
+    Converts a string containing a year, in which the last one or two digits are unknown
+
+    >>> yearWithPlaceHolderAndQualifier("18--")
+    '1800/1899'
+
+    >>> yearWithPlaceHolderAndQualifier("193-")
+    '1930/1939'
+
+    >>> yearWithPlaceHolderAndQualifier("17--?")
+    '1700?/1799?'
+    """
     uncertain = re.search(r'(ca|\?)', dateString)
     quantifier = '?' if uncertain else ''
     m = re.search(r'(\d{2})--', dateString)
@@ -202,6 +287,14 @@ def yearWithPlaceHolderAndQualifier(dateString):
         return "%s0%s/%s9%s" % (century, quantifier, century, quantifier)
 
 def yearRangeWithQualifier(dateString):
+    """
+    Converts a string containing two digits as a range of years
+
+    >>> yearRangeWithQualifier("zwischen 1980 und 1990")
+    '1980/1990'
+    >>> yearRangeWithQualifier("von ca. 1530 bis 1570")
+    '1530?/1570?'
+    """
     years = re.findall(r'(\d{2,4}\??)', dateString)
     uncertain = re.search(r'(ca)', dateString)
     if uncertain:
