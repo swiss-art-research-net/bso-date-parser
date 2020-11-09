@@ -10,11 +10,22 @@ except ImportError:
     import lib.TestPatterns as TestPatterns
 
 def cleanDateString(dateString):
+    """
+    Removes characters in date string that will be disregarded when interpreting the date
+
+    >>> cleanDateString("[18]42")
+    '1842'
+
+    >>> cleanDateString("vermutlich um 1900")
+    'vermutlich um 1900'
+
+    """
     s = re.sub('\[|\]', '', dateString)
     return s
 
 def extractPattern(dateString):
-    """Normalises a date string by replacing digits and date terms with placeholders
+    """
+    Normalises a date string by replacing digits and date terms with placeholders
 
     >>> extractPattern("10.5.1985")
     '__._.____'
@@ -61,6 +72,18 @@ def extractPattern(dateString):
     return genericDate
 
 def interpret(dateString, pattern):
+    """
+    Converts a string containing date to an EDTF date using the provided pattern
+
+    >>> interpret("1840","____")
+    '1840'
+
+    >>> interpret("ca. 19. Jh.","ca. __. ¢")
+    '18?'
+
+    >>> interpret("22 Aug [18]59","__ 🌕____")
+    '22.8.1859'
+    """
     ds = cleanDateString(dateString)
     testOrder = ['singleDate', 'fullDateWithMonthInLangOrRoman', 'monthAndYearWithMonthInLangOrRoman', 'singleYearWithQualifier', 'beforeYearWithQualifier', 'afterYearWithQualifier', 'yearRangeWithQualifier', 'yearWithPlaceHolderAndQualifier', 'centuryRange', 'midCentury', 'century', 'singleYearRelaxed']
 
@@ -75,7 +98,8 @@ def interpret(dateString, pattern):
     return None
 
 def parse(dateString):
-    """Parse a date string into EDTF Format.
+    """
+    Parse a date string into EDTF Format.
 
     >>> parse("1751")
     '1751'
