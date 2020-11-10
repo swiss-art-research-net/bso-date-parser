@@ -115,6 +115,9 @@ def parse(dateString):
 
     >>> parse("den 12. Ap. [17]94")
     '1794-04-12'
+
+    >>> parse("1847-?")
+    '1847/'
     """
 
     pattern = extractPattern(dateString)

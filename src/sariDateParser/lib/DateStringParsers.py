@@ -16,18 +16,14 @@ def afterYearWithQualifier(dateString):
     '1940/'
 
     >>> afterYearWithQualifier("nach 1250?")
-    '1250?/'
+    '1250/'
     """
-    yearSearch = re.search(r'(\d{4}\??)', dateString)
+    yearSearch = re.search(r'(\d{4})\??', dateString)
     if not yearSearch:
         return None
     year = yearSearch.group(1)
-    uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
     year = year + "/"
-    if uncertain and not '?' in year:
-        return year + "?"
-    else:
-        return year
+    return year
 
 def beforeYearWithQualifier(dateString):
     """
@@ -37,18 +33,14 @@ def beforeYearWithQualifier(dateString):
     '/1940'
 
     >>> beforeYearWithQualifier("nach 1250?")
-    '/1250?'
+    '/1250'
     """
-    yearSearch = re.search(r'(\d{4}\??)', dateString)
+    yearSearch = re.search(r'(\d{4})\??', dateString)
     if not yearSearch:
         return None
     year = yearSearch.group(1)
-    uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
     year = "/" + year
-    if uncertain and not '?' in year:
-        return year + "?"
-    else:
-        return year
+    return year
 
 def century(dateString):
     """
@@ -303,7 +295,7 @@ def yearRangeWithQualifier(dateString):
     uncertain = re.search(r'(ca)', dateString)
     if uncertain:
         for i, year in enumerate(years):
-            if not '?' in year:
+            if not '?' in year and year:
                 years[i] += '?'
     return "/".join(years)
 
