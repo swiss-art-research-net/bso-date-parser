@@ -79,7 +79,7 @@ def interpret(dateString, pattern):
     '1840'
 
     >>> interpret("ca. 19. Jh.","ca. __. ¢")
-    '18?'
+    '18XX?'
 
     >>> interpret("22 Aug [18]59","__ 🌕____")
     '22.8.1859'

@@ -55,21 +55,21 @@ def century(dateString):
     Given a string containing one or two digits, interprets it as a century in EDTF format
 
     >>> century("19. Jahrhundert")
-    '18'
+    '18XX'
 
     >>> century("4. Jh.")
-    '3'
+    '03XX'
     """
     centurySearch = re.search(r'(\d{1,2})', dateString)
     if not centurySearch:
         return None
     century = centurySearch.group(1)
-    centuryEDTF = str(int(century)-1) ## EDTF uses YY for century. 19th century is 18
+    centuryEDTF = str(int(century)-1).zfill(2) ## EDTF uses YY for century. 19th century is 18
     uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
     if uncertain:
-        return centuryEDTF + "?"
+        return centuryEDTF + "XX?"
     else:
-        return centuryEDTF
+        return centuryEDTF + "XX"
 
 def centuryRange(dateString):
     """
