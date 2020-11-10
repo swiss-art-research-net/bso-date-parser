@@ -7,7 +7,7 @@ MONTHTERMS = {
         '1': ["Januar", "Jan.", "Jan"],
         '2': ["Februar", "Febr", "Feb.", "Feb"],
         '3': ["März", "Maerz", "Merz", "Mrz", "Mrz."],
-        '4': ["April", "Apr.", "Apr", "Ap."],
+        '4': ["April", "Apr.", "Apr", "Ap"],
         '5': ["Mai"],
         '6': ["Juni", "Jun.", "Jun"],
         '7': ["Juli", "Jul.", "Jul"],

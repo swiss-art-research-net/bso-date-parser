@@ -112,6 +112,9 @@ def parse(dateString):
 
     >>> parse("ca. April 1940")
     '1940-04~'
+
+    >>> parse("den 12. Ap. [17]94")
+    '1794-04-12'
     """
 
     pattern = extractPattern(dateString)

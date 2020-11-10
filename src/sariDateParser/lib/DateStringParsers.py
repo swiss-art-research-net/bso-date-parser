@@ -134,11 +134,14 @@ def guessMonth(monthString):
     >>> guessMonth("9br")
     '11'
 
+    >>> guessMonth("Ap.")
+    '4'
+
     >>> guessMonth("5 January 1910")
-    '0'
+    
     
     >>> guessMonth("2.10.10")
-    '0'
+    
     """
     testOrder = ['de', 'en', 'fr', 'roman']
     monthString = re.sub(r'\.|\s', '', monthString)
@@ -147,7 +150,7 @@ def guessMonth(monthString):
             for monthVariation in constants.MONTHTERMS[lang][i]:
                 if monthVariation.lower() == monthString.lower():
                     return i
-    return '0'
+    return None
     
 def midCentury(dateString):
     """
