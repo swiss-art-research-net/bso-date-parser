@@ -94,29 +94,32 @@ def fullDateWithMonthInLangOrRoman(dateString):
     Given a string containing a date with month written as a name or in roman numerals, returns the date in EDTF format
 
     >>> fullDateWithMonthInLangOrRoman("2 Feb 2020")
-    '2.2.2020'
+    '2020-02-02'
+
+    >>> fullDateWithMonthInLangOrRoman("6 VII 1938")
+    '1938-07-06'
 
     """
     allMonthsPattern = '|'.join(constants.ALLMONTHTERMS)
     datePattern = r'(\d{1,2})(?:\.|\s)*(?:' + allMonthsPattern + ')(?:\.|\s)*(?:\d{2,4})'
     yearPattern = r'((\d{2,4})\.?$|\d{4})'
     try:
-        date = re.search(datePattern, dateString, flags=re.IGNORECASE).group(1)
+        date = re.search(datePattern, dateString, flags=re.IGNORECASE).group(1).zfill(2)
     except:
         return None
         
     try:
         monthWords = re.search(allMonthsPattern, dateString, flags=re.IGNORECASE).group(0)
-        month = str(guessMonth(monthWords))
+        month = str(guessMonth(monthWords)).zfill(2)
     except:
         return None
 
     try:
-        year = re.search(yearPattern, dateString).group(1)
+        year = re.search(yearPattern, dateString).group(1).zfill(4)
     except:
         return None
     
-    return '.'.join([date, month, year])
+    return '-'.join([year, month, date])
 
 def guessMonth(monthString):
     """

@@ -82,7 +82,7 @@ def interpret(dateString, pattern):
     '18XX'
 
     >>> interpret("22 Aug [18]59","__ 🌕____")
-    '22.8.1859'
+    '1859-08-22'
     """
     ds = cleanDateString(dateString)
     testOrder = ['singleDate', 'fullDateWithMonthInLangOrRoman', 'monthAndYearWithMonthInLangOrRoman', 'singleYearWithQualifier', 'beforeYearWithQualifier', 'afterYearWithQualifier', 'yearRangeWithQualifier', 'yearWithPlaceHolderAndQualifier', 'centuryRange', 'midCentury', 'century', 'singleYearRelaxed']
