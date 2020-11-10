@@ -177,30 +177,30 @@ def monthAndYearWithMonthInLangOrRoman(dateString):
     Given a string containing a date expressed by a month term and a year returns the date in EDTF format
 
     >>> monthAndYearWithMonthInLangOrRoman("April 1450")
-    '4.1450'
+    '1450-04'
 
     >>> monthAndYearWithMonthInLangOrRoman("October 2007?")
-    '10.2007?'
+    '2007-10~'
 
     >>> monthAndYearWithMonthInLangOrRoman("VII 1893")
-    '7.1893'
+    '1893-07'
     """
     allMonthsPattern = '|'.join(constants.ALLMONTHTERMS)
     yearPattern = r'((\d{2,4})\.?$|\d{4})'
     uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
-    qualifier = '?' if uncertain else ''
+    qualifier = '~' if uncertain else ''
     try:
         monthWords = re.search(allMonthsPattern, dateString, flags=re.IGNORECASE).group(0)
-        month = str(guessMonth(monthWords))
+        month = str(guessMonth(monthWords)).zfill(2)
     except:
         return None
 
     try:
-        year = re.search(yearPattern, dateString).group(1)
+        year = re.search(yearPattern, dateString).group(1).zfill(4)
     except:
         return None
     
-    return '.'.join([month, year]) + qualifier
+    return '-'.join([year, month]) + qualifier
 
 def singleDate(dateString):
     """
