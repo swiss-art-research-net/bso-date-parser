@@ -182,10 +182,14 @@ def monthAndYearWithMonthInLangOrRoman(dateString):
 
     >>> monthAndYearWithMonthInLangOrRoman("VII 1893")
     '1893-07'
+
+    >>> monthAndYearWithMonthInLangOrRoman("Febr. 36.")
+    '1936-02'
     """
     allMonthsPattern = '(' + ')|('.join(constants.ALLMONTHTERMS) + ')'
-    yearPattern = r'((\d{2,4})\.?$|\d{4})'
+    yearPattern = r'((\d{2,4})\.?$|(\d{4}))'
     uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
+    
     qualifier = '~' if uncertain else ''
     try:
         monthWords = re.search(allMonthsPattern, dateString, flags=re.IGNORECASE).group(0)
@@ -194,7 +198,11 @@ def monthAndYearWithMonthInLangOrRoman(dateString):
         return None
 
     try:
-        year = re.search(yearPattern, dateString).group(1).zfill(4)
+        year = re.search(yearPattern, dateString.replace('.','')).group(1)
+        if len(year) == 2:
+            year = '19' + year
+        else:
+            year = year.zfill(4)
     except:
         return None
     
@@ -210,6 +218,9 @@ def singleDate(dateString):
     >>> singleDate("am 5.10.1930")
     '1930-10-05'
 
+    >>> singleDate("1784.9.14")
+    '1784-09-14'
+
     >>> singleDate("aufgenommen in Zürich am 30.6.2010 bei Tageslicht")
     '2010-06-30'
 
@@ -217,14 +228,17 @@ def singleDate(dateString):
     '0300-03-06'
 
     """
-    date = re.search(r'(\d{1,2})\.(\d{1,2})\.(\d{2,4})', dateString)
-    year = date.group(3).zfill(4)
-    month = date.group(2).zfill(2)
-    day = date.group(1).zfill(2)
-    if date:
-        return '-'.join((year, month, day))
+    date = re.search(r'(\d{1,4})\.(\d{1,2})\.(\d{2,4})', dateString)
+    if len(date.group(1)) > 2:
+        # YYYY.MM.DD format
+        year = date.group(1).zfill(4)
+        month = date.group(2).zfill(2)
+        day = date.group(3).zfill(2)
     else:
-        return None
+        year = date.group(3).zfill(4)
+        month = date.group(2).zfill(2)
+        day = date.group(1).zfill(2)
+    return '-'.join((year, month, day))
 
 def singleYearRelaxed(dateString):
     """
@@ -297,8 +311,11 @@ def yearRangeWithQualifier(dateString):
 
     >>> yearRangeWithQualifier("1914/15")
     '1914/1915'
+
+    >>> yearRangeWithQualifier("1779?-1847")
+    '1779/1847'
     """
-    years = re.findall(r'(\d{2,4}\??)', dateString)
+    years = re.findall(r'(\d{2,4})\??', dateString)
     if len(years[1]) < len(years[0]):
         diff = len(years[0])-len(years[1])
         years[1] = years[0][:diff] + years[1]
