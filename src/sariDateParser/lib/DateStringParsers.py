@@ -65,37 +65,29 @@ def century(dateString):
         return None
     century = centurySearch.group(1)
     centuryEDTF = str(int(century)-1).zfill(2) ## EDTF uses YY for century. 19th century is 18
-    uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
-    if uncertain:
-        return centuryEDTF + "XX?"
-    else:
-        return centuryEDTF + "XX"
+    return centuryEDTF + "XX"
 
 def centuryRange(dateString):
     """
     Given a string containing  two groups of digits, interprets it as a range of centuries in EDTF format
 
     >>> centuryRange("18/19. Jahrhundert")
-    '17/18'
+    '17XX/18XX'
 
     >>> centuryRange("3/4. Jh.")
-    '2/3'
+    '02XX/03XX'
 
     >>> centuryRange("9/10. Jh.")
-    '8/9'
+    '08XX/09XX'
     """
     centurySearch = re.findall(r'(\d{1,2})', dateString)
     if len(centurySearch) <2:
         return None
     centuryFrom = centurySearch[0]
     centuryTo = centurySearch[1]
-    centuryFromEDTF = str(int(centuryFrom)-1) ## EDTF uses YY for century. 19th century is 18
-    centuryToEDTF = str(int(centuryTo)-1) 
-    uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
-    if uncertain:
-        return centuryFromEDTF + "?/" + centuryToEDTF + "?"
-    else:
-        return centuryFromEDTF + "/" + centuryToEDTF
+    centuryFromEDTF = str(int(centuryFrom)-1).zfill(2) ## EDTF uses YY for century. 19th century is 18
+    centuryToEDTF = str(int(centuryTo)-1) .zfill(2)
+    return centuryFromEDTF + "XX/" + centuryToEDTF + "XX"
 
 def fullDateWithMonthInLangOrRoman(dateString):
     """
