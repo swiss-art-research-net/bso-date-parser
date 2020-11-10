@@ -212,18 +212,24 @@ def singleDate(dateString):
     Given a string containing a date expressed in numeric date format, returns it in EDTF
 
     >>> singleDate("10.4.1983")
-    '10.4.1983'
+    '1983-04-10'
 
     >>> singleDate("am 5.10.1930")
-    '5.10.1930'
+    '1930-10-05'
 
     >>> singleDate("aufgenommen in Zürich am 30.6.2010 bei Tageslicht")
-    '30.6.2010'
+    '2010-06-30'
+
+    >>> singleDate("6.3.300")
+    '0300-03-06'
 
     """
-    date = re.search(r'\d{1,2}\.\d{1,2}\.\d{2,4}', dateString)
+    date = re.search(r'(\d{1,2})\.(\d{1,2})\.(\d{2,4})', dateString)
+    year = date.group(3).zfill(4)
+    month = date.group(2).zfill(2)
+    day = date.group(1).zfill(2)
     if date:
-        return date.group(0)
+        return '-'.join((year, month, day))
     else:
         return None
 
