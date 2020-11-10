@@ -291,15 +291,17 @@ def yearRangeWithQualifier(dateString):
 
     >>> yearRangeWithQualifier("zwischen 1980 und 1990")
     '1980/1990'
+
     >>> yearRangeWithQualifier("von ca. 1530 bis 1570")
-    '1530?/1570?'
+    '1530/1570'
+
+    >>> yearRangeWithQualifier("1914/15")
+    '1914/1915'
     """
     years = re.findall(r'(\d{2,4}\??)', dateString)
-    uncertain = re.search(r'(ca)', dateString)
-    if uncertain:
-        for i, year in enumerate(years):
-            if not '?' in year and year:
-                years[i] += '?'
+    if len(years[1]) < len(years[0]):
+        diff = len(years[0])-len(years[1])
+        years[1] = years[0][:diff] + years[1]
     return "/".join(years)
 
 if __name__ == '__main__':
