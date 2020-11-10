@@ -91,8 +91,11 @@ def fullDateWithMonthInLangOrRoman(dateString):
     >>> fullDateWithMonthInLangOrRoman("6 VII 1938")
     '1938-07-06'
 
+    >>> fullDateWithMonthInLangOrRoman("aufgenommen 1 Novbr 1860")
+    '1860-11-01'
+
     """
-    allMonthsPattern = '|'.join(constants.ALLMONTHTERMS)
+    allMonthsPattern = '(' + ')|('.join(constants.ALLMONTHTERMS) + ')'
     datePattern = r'(\d{1,2})(?:\.|\s)*(?:' + allMonthsPattern + ')(?:\.|\s)*(?:\d{2,4})'
     yearPattern = r'((\d{2,4})\.?$|\d{4})'
     try:
@@ -180,7 +183,7 @@ def monthAndYearWithMonthInLangOrRoman(dateString):
     >>> monthAndYearWithMonthInLangOrRoman("VII 1893")
     '1893-07'
     """
-    allMonthsPattern = '|'.join(constants.ALLMONTHTERMS)
+    allMonthsPattern = '(' + ')|('.join(constants.ALLMONTHTERMS) + ')'
     yearPattern = r'((\d{2,4})\.?$|\d{4})'
     uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
     qualifier = '~' if uncertain else ''

@@ -42,7 +42,7 @@ MONTHTERMS = {
         '8': ["Août", "Aout", "Aoust", "Aost", "Aost", "Aou"],
         '9': ["Septembre", "Septbr", "Sept", "Sep", "7bre", "7br"],
         '10': ["Octobre", "octobr.", "Octob", "Oct", "8bre", "8br"],
-        '11': ["Novembre", "Novbr", "Nov", "9bre", "9br"],
+        '11': ["Novembre", "Novbr", "Novb", "Nov", "9bre", "9br"],
         '12': ["Décembre", "Decbr", "Dec", "Xbre", "Xbr"],
     },
     'roman': {
