@@ -4,18 +4,18 @@ UNCERTAINTYQUALIFIERS = 'ca\.|ca|circa|um|vermutlich um|\?'
 
 MONTHTERMS = {
     'de': {
-        '1': ["Januar", "Jan.", "Jan"],
-        '2': ["Februar", "Febr", "Feb.", "Feb"],
-        '3': ["März", "Maerz", "Merz", "Mrz", "Mrz."],
-        '4': ["April", "Apr.", "Apr", "Ap"],
+        '1': ["Januar", "Jan"],
+        '2': ["Februar", "Febr", "Feb"],
+        '3': ["März", "Maerz", "Merz", "Mrz"],
+        '4': ["April", "Apr", "Ap"],
         '5': ["Mai"],
-        '6': ["Juni", "Jun.", "Jun"],
-        '7': ["Juli", "Jul.", "Jul"],
-        '8': ["August", "Augst", "Aug.", "Aug"],
-        '9': ["September", "Sept.", "Sept", "Sep"],
-        '10': ["Oktober", "Okt.", "Okt"],
-        '11': ["November", "Nov.", "Nov"],
-        '12': ["Dezember", "Dez.", "Dez"],
+        '6': ["Juni", "Jun"],
+        '7': ["Juli", "Jul"],
+        '8': ["August", "Augst", "Aug"],
+        '9': ["September", "Sept", "Sep"],
+        '10': ["Oktober", "Okt"],
+        '11': ["November", "Nov"],
+        '12': ["Dezember", "Dez"],
     },
     'en': {
         '1': ["January", "Jan"],
@@ -41,8 +41,8 @@ MONTHTERMS = {
         '7': ["Juillet", "Juil"],
         '8': ["Août", "Aout", "Aoust", "Aost", "Aost", "Aou"],
         '9': ["Septembre", "Septbr", "Sept", "Sep", "7bre", "7br"],
-        '10': ["Octobre", "octobr.", "Octob", "Oct", "8bre", "8br"],
-        '11': ["Novembre", "Novbr", "Novb", "Nov", "9bre", "9br"],
+        '10': ["Octobre", "octobr", "Octob", "Oct", "8bre", "8br"],
+        '11': ["Novembre", "Novbr", "Nov", "9bre", "9br"],
         '12': ["Décembre", "Decbr", "Dec", "Xbre", "Xbr"],
     },
     'roman': {
@@ -62,7 +62,7 @@ MONTHTERMS = {
 }
 
 CENTURYTERMS = {
-    'de': ["Jahrhundert", "Jht.", "Jh."]
+    'de': ["Jahrhundert", "Jht", "Jh"]
 }
 
 MIDTERMS = {
