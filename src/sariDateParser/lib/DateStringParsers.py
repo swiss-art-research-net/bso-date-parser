@@ -97,7 +97,7 @@ def fullDateWithMonthInLangOrRoman(dateString):
     """
     allMonthsPattern = '(' + ')|('.join(constants.ALLMONTHTERMS) + ')'
     datePattern = r'(\d{1,2})(?:\.|\s)*(?:' + allMonthsPattern + ')(?:\.|\s)*(?:\d{2,4})'
-    yearPattern = r'((\d{2,4})\.?$|\d{4})'
+    yearPattern = r'(\d{2,4})\.?$|(\d{4})'
     try:
         date = re.search(datePattern, dateString, flags=re.IGNORECASE).group(1).zfill(2)
     except:
