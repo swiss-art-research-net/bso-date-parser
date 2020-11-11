@@ -114,7 +114,11 @@ def fullDateWithMonthInLangOrRoman(dateString):
     except:
         return None
     
-    return '-'.join([year, month, date])
+    if int(date) > 31:
+        # assume a year has been misinterpreted as date
+        return '-'.join([year, month])
+    else:
+        return '-'.join([year, month, date])
 
 def guessMonth(monthString):
     """
@@ -221,6 +225,9 @@ def singleDate(dateString):
     >>> singleDate("1784.9.14")
     '1784-09-14'
 
+    >>> singleDate("1.30.1861")
+    '1861-01-30'
+
     >>> singleDate("aufgenommen in Zürich am 30.6.2010 bei Tageslicht")
     '2010-06-30'
 
@@ -238,7 +245,11 @@ def singleDate(dateString):
         year = date.group(3).zfill(4)
         month = date.group(2).zfill(2)
         day = date.group(1).zfill(2)
-    return '-'.join((year, month, day))
+    if int(month) > 12:
+        # Assume that month and day have been swapped
+        return '-'.join((year, day, month))
+    else:
+        return '-'.join((year, month, day))
 
 def singleYearRelaxed(dateString):
     """
@@ -315,11 +326,12 @@ def yearRangeWithQualifier(dateString):
     >>> yearRangeWithQualifier("1779?-1847")
     '1779/1847'
     """
-    years = re.findall(r'(\d{2,4})\??', dateString)
-    if len(years[1]) < len(years[0]):
-        diff = len(years[0])-len(years[1])
-        years[1] = years[0][:diff] + years[1]
-    return "/".join(years)
+    years = re.search(r'(?:ca\.)?\s?(?:zwischen)?\s?(\d{4})\??\s?(?:-|und|bis|ud|\/)\s?(\d{2,4})\??', dateString)
+    yearsPair = [years.group(1), years.group(2)]
+    if len(yearsPair[1]) < len(yearsPair[0]):
+        diff = len(yearsPair[0])-len(yearsPair[1])
+        yearsPair[1] = yearsPair[0][:diff] + yearsPair[1]
+    return "/".join(yearsPair)
 
 if __name__ == '__main__':
     import doctest

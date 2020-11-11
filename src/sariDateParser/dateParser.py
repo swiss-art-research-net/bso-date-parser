@@ -118,6 +118,12 @@ def parse(dateString):
 
     >>> parse("1847-?")
     '1847/'
+
+    >>> parse("186? [i.e. zwischen 1860 und 1869]")
+    '1860/1869'
+
+    >>> parse("Aug 95 [August 1895]")
+    '1895-08'
     """
 
     pattern = extractPattern(dateString)
