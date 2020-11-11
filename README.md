@@ -21,5 +21,5 @@ $ pip install date-parser-sari
 >>> parse("zwischen 1870 und 1890")
 '1870/1890'
 >>> parse("nicht vor 1450?")
-'1450?/'
+'1450/'
 ```
