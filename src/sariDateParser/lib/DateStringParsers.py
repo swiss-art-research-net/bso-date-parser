@@ -202,7 +202,7 @@ def monthAndYearWithMonthInLangOrRoman(dateString):
         return None
 
     try:
-        year = re.search(yearPattern, dateString.replace('.','')).group(1)
+        year = re.search(yearPattern, dateString).group(1).replace('.','')
         if len(year) == 2:
             year = '19' + year
         else:

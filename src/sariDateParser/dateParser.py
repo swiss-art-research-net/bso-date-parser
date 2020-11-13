@@ -124,6 +124,9 @@ def parse(dateString):
 
     >>> parse("Aug 95 [August 1895]")
     '1895-08'
+
+    >>> parse("Sept 88 [i.e. 9.1888]")
+    '1888-09'
     """
 
     pattern = extractPattern(dateString)
