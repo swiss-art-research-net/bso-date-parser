@@ -206,17 +206,26 @@ def monthAndYearWithMonthInLangOrRoman(dateString):
 
     >>> monthAndYearWithMonthInLangOrRoman("Febr. 36.")
     '1936-02'
+
+    >>> monthAndYearWithMonthInLangOrRoman("im 9br 1792")
+    '1792-11'
     """
+    allMonthsInLanguagePattern = '(' + ')|('.join(constants.ALLMONTHLANGUAGETERMS) + ')'
     allMonthsPattern = '(' + ')|('.join(constants.ALLMONTHTERMS) + ')'
     yearPattern = r'((\d{2,4})\.?$|(\d{4}))'
     uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)
     
     qualifier = '~' if uncertain else ''
+        
     try:
-        monthWords = re.search(allMonthsPattern, dateString, flags=re.IGNORECASE).group(0)
+        monthWords = re.search(allMonthsInLanguagePattern, dateString, flags=re.IGNORECASE).group(0)
         month = str(guessMonth(monthWords)).zfill(2)
     except:
-        return None
+        try: 
+            monthWords = re.search(allMonthsPattern, dateString, flags=re.IGNORECASE).group(0)
+            month = str(guessMonth(monthWords)).zfill(2)
+        except:
+            return None
 
     try:
         year = re.search(yearPattern, dateString).group(1).replace('.','')
