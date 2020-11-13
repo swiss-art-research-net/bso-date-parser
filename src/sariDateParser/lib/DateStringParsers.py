@@ -103,6 +103,8 @@ def fullDateWithMonthInLangOrRoman(dateString):
     >>> fullDateWithMonthInLangOrRoman("le 2 Aout 1844 -")
     '1844-08-02'
 
+    >>> fullDateWithMonthInLangOrRoman("den 22. Jul. 1820 gzcht")
+    '1820-07-22'
     """
     allMonthsInLanguagePattern = '(' + ')|('.join(constants.ALLMONTHLANGUAGETERMS) + ')'
     allMonthsPattern = '(' + ')|('.join(constants.ALLMONTHTERMS) + ')'
