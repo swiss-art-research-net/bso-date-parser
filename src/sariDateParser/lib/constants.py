@@ -1,5 +1,5 @@
 
-
+DEFAULTCENTURY = '19'
 UNCERTAINTYQUALIFIERS = 'ca\.|ca|circa|um|vermutlich um|\?'
 
 MONTHTERMS = {

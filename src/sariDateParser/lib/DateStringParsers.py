@@ -204,7 +204,7 @@ def monthAndYearWithMonthInLangOrRoman(dateString):
     try:
         year = re.search(yearPattern, dateString).group(1).replace('.','')
         if len(year) == 2:
-            year = '19' + year
+            year = constants.DEFAULTCENTURY + year
         else:
             year = year.zfill(4)
     except:
