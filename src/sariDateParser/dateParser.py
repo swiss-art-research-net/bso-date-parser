@@ -130,6 +130,9 @@ def parse(dateString):
 
     >>> parse("Di. 16.t Febr. 1835")
     '1835-02-16'
+
+    >>> parse("747-814")
+    '0747/0814'
     """
 
     pattern = extractPattern(dateString)

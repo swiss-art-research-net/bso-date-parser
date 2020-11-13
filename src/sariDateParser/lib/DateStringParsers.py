@@ -357,7 +357,7 @@ def yearRangeWithQualifier(dateString):
     >>> yearRangeWithQualifier("1870/1828")
     '1828/1870'
     """
-    years = re.search(r'(?:ca\.)?\s?(?:zwischen)?\s?(\d{4})\??\s?(?:-|und|bis|ud|\/)\s?(\d{2,4})\??', dateString)
+    years = re.search(r'(?:ca\.)?\s?(?:zwischen)?\s?(\d{3,4})\??\s?(?:-|und|bis|ud|\/)\s?(\d{2,4})\??', dateString)
     yearsPair = [years.group(1), years.group(2)]
     if len(yearsPair[1]) < len(yearsPair[0]):
         # Accommodate for 1814/15 type of dates by taking century from first date
@@ -366,6 +366,7 @@ def yearRangeWithQualifier(dateString):
     if int(yearsPair[1]) < int(yearsPair[0]):
         # Make sure dates are in correct order and switch if necessary
         yearsPair = [yearsPair[1], yearsPair[0]]
+    yearsPair = [yearsPair[0].zfill(4), yearsPair[1].zfill(4)]
     return "/".join(yearsPair)
 
 if __name__ == '__main__':
