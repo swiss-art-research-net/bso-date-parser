@@ -94,6 +94,12 @@ def fullDateWithMonthInLangOrRoman(dateString):
     >>> fullDateWithMonthInLangOrRoman("aufgenommen 1 Novbr 1860")
     '1860-11-01'
 
+    >>> fullDateWithMonthInLangOrRoman("aufgenommen 1 Novbr 1860")
+    '1860-11-01'
+
+    >>> fullDateWithMonthInLangOrRoman("21. Sept. 76")
+    '1976-09-21'
+
     """
     allMonthsPattern = '(' + ')|('.join(constants.ALLMONTHTERMS) + ')'
     datePattern = r'(\d{1,2})(?:\.|\s)*(?:' + allMonthsPattern + ')(?:\.|\s)*(?:\d{2,4})'
@@ -110,7 +116,10 @@ def fullDateWithMonthInLangOrRoman(dateString):
         return None
 
     try:
-        year = re.search(yearPattern, dateString).group(1).zfill(4)
+        year = re.search(yearPattern, dateString).group(1)
+        if len(year) == 2:
+            year = constants.DEFAULTCENTURY + year
+        year = year.zfill(4)
     except:
         return None
     
