@@ -104,8 +104,9 @@ def fullDateWithMonthInLangOrRoman(dateString):
     '1844-08-02'
 
     """
+    allMonthsInLanguagePattern = '(' + ')|('.join(constants.ALLMONTHLANGUAGETERMS) + ')'
     allMonthsPattern = '(' + ')|('.join(constants.ALLMONTHTERMS) + ')'
-    datePattern = r'(\d{1,2})(?:\.|\s)*(?:' + allMonthsPattern + ')(?:\.|\s)*(?:\d{2,4})'
+    datePattern = r'(\d{1,2})(?:t|\.|\s)*(?:' + allMonthsPattern + ')(?:\.|\s)*(?:\d{2,4})'
     yearPattern = r'((\d{2,4})\.?$|(\d{4}))'
     try:
         date = re.search(datePattern, dateString, flags=re.IGNORECASE).group(1).zfill(2) 
@@ -113,10 +114,14 @@ def fullDateWithMonthInLangOrRoman(dateString):
         return None
         
     try:
-        monthWords = re.search(allMonthsPattern, dateString, flags=re.IGNORECASE).group(0)
+        monthWords = re.search(allMonthsInLanguagePattern, dateString, flags=re.IGNORECASE).group(0)
         month = str(guessMonth(monthWords)).zfill(2)
     except:
-        return None
+        try: 
+            monthWords = re.search(allMonthsPattern, dateString, flags=re.IGNORECASE).group(0)
+            month = str(guessMonth(monthWords)).zfill(2)
+        except:
+            return None
 
     try:
         year = re.search(yearPattern, dateString).group(1)

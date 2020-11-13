@@ -70,6 +70,7 @@ MIDTERMS = {
 }
 
 ALLMONTHTERMS = [item for sublist in [month for langMonths in [list(d.values()) for d in [MONTHTERMS[lang] for lang in MONTHTERMS]] for month in langMonths] for item in sublist]
+ALLMONTHLANGUAGETERMS = [item for sublist in [month for langMonths in [list(d.values()) for d in [MONTHTERMS[lang] for lang in MONTHTERMS if lang != 'roman']] for month in langMonths] for item in sublist]
 ALLCENTURYTERMS = [d for l in [CENTURYTERMS[d] for d in CENTURYTERMS] for d in l]
 ALLMIDTERMS = [d for l in [MIDTERMS[d] for d in MIDTERMS] for d in l]
 
