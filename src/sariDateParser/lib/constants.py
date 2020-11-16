@@ -35,7 +35,7 @@ MONTHTERMS = {
         '1': ["Janvier", "Janv", "Jan"],
         '2': ["Février", "Févr", "Fév"],
         '3': ["Mars", "Mar"],
-        '4': ["Avril", "Avr"],
+        '4': ["Avril", "Avrl", "Avr"],
         '5': ["Mai"],
         '6': ["Juin"],
         '7': ["Juillet", "Juil"],
@@ -62,7 +62,11 @@ MONTHTERMS = {
 }
 
 CENTURYTERMS = {
-    'de': ["Jahrhundert", "Jht", "Jh"]
+    'de': ["Jahrhundert", "Jahrundert", "Jht", "Jh"]
+}
+
+BCETERMS = {
+    'de': ["v.Chr"]
 }
 
 MIDTERMS = {
@@ -71,6 +75,7 @@ MIDTERMS = {
 
 ALLMONTHTERMS = [item for sublist in [month for langMonths in [list(d.values()) for d in [MONTHTERMS[lang] for lang in MONTHTERMS]] for month in langMonths] for item in sublist]
 ALLMONTHLANGUAGETERMS = [item for sublist in [month for langMonths in [list(d.values()) for d in [MONTHTERMS[lang] for lang in MONTHTERMS if lang != 'roman']] for month in langMonths] for item in sublist]
+ALLBCETERMS = [d for l in [BCETERMS[d] for d in BCETERMS] for d in l]
 ALLCENTURYTERMS = [d for l in [CENTURYTERMS[d] for d in CENTURYTERMS] for d in l]
 ALLMIDTERMS = [d for l in [MIDTERMS[d] for d in MIDTERMS] for d in l]
 
