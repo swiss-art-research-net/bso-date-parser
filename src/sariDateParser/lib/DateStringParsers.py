@@ -105,11 +105,14 @@ def fullDateWithMonthInLangOrRoman(dateString):
 
     >>> fullDateWithMonthInLangOrRoman("den 22. Jul. 1820 gzcht")
     '1820-07-22'
+
+    >>> fullDateWithMonthInLangOrRoman("19. 8br. 1803.")
+    '1803-10-19'
     """
     allMonthsInLanguagePattern = '(' + ')|('.join(constants.ALLMONTHLANGUAGETERMS) + ')'
     allMonthsPattern = '(' + ')|('.join(constants.ALLMONTHTERMS) + ')'
     datePattern = r'(\d{1,2})(?:t|\.|\s)*(?:' + allMonthsPattern + ')(?:\.|\s)*(?:\d{2,4})'
-    yearPattern = r'((\d{2,4})\.?$|(\d{4}))'
+    yearPattern = r'((\d{2,4})$|(\d{4})|(\d{2,4}).?$)'
     try:
         date = re.search(datePattern, dateString, flags=re.IGNORECASE).group(1).zfill(2) 
     except:
@@ -357,7 +360,7 @@ def yearRangeWithQualifier(dateString):
     >>> yearRangeWithQualifier("1870/1828")
     '1828/1870'
     """
-    years = re.search(r'(?:ca\.)?\s?(?:zwischen)?\s?(\d{3,4})\??\s?(?:-|und|bis|ud|\/)\s?(\d{2,4})\??', dateString)
+    years = re.search(r'(?:ca\.)?\s?(?:zwischen)?\s?(\d{3,4})\??\s?(?:-|und|bis|ud|\/)\s?(?:vor)?\s?(\d{2,4})\??', dateString)
     yearsPair = [years.group(1), years.group(2)]
     if len(yearsPair[1]) < len(yearsPair[0]):
         # Accommodate for 1814/15 type of dates by taking century from first date
