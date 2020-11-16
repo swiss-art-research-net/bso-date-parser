@@ -21,6 +21,7 @@ echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
   echo "Running test cases"
+  python3 testExamples.py
 fi
 
 echo "All tests completed!"
