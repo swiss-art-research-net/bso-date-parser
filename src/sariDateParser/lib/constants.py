@@ -75,7 +75,7 @@ CARDINALTERMS = {
 }
 
 MIDTERMS = {
-    'de': ["Hälfte"]
+    'de': ["Hälfte", "H."]
 }
 
 ALLMONTHTERMS = [item for sublist in [month for langMonths in [list(d.values()) for d in [MONTHTERMS[lang] for lang in MONTHTERMS]] for month in langMonths] for item in sublist]

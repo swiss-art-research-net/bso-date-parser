@@ -185,10 +185,13 @@ def midCentury(dateString):
 
     >>> midCentury("[erste Hälfte des 17. Jahrhunderts]")
     '1600/1650'
+
+    >>> midCentury("2. H. 16. Jh.")
+    '1550/1599'
     """
     cardinalTermsPattern = '(' + '|'.join(constants.ALLCARDINALTERMS) + ')'
     cardinalTermsPattern = cardinalTermsPattern.replace('.','\.')
-    centurySearch = re.search(r'(' + cardinalTermsPattern + ')\s?[A-zäöü|\s]*\s?(\d{1,2})', dateString)
+    centurySearch = re.search(r'(' + cardinalTermsPattern + ')\s?[A-zäöü|\s|\.]*\s?(\d{1,2})', dateString)
     if not centurySearch:
         return None
     uncertain = re.search(r'(' + constants.UNCERTAINTYQUALIFIERS + ')', dateString)

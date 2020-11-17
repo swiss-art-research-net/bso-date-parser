@@ -61,6 +61,7 @@ def extractPattern(dateString):
 
     # Normalise terms for half
     midTermPattern = r'(' + ')|('.join(constants.ALLMIDTERMS) + ')'
+    midTermPattern = midTermPattern.replace('.','\.')
     genericDate = re.sub(midTermPattern, '½', genericDate)
 
     # Normalise digits
@@ -133,6 +134,9 @@ def parse(dateString):
 
     >>> parse("747-814")
     '0747/0814'
+
+    >>> parse("[zweite Hälfte des 17. Jahrhunderts]")
+    '1650/1699'
     """
 
     pattern = extractPattern(dateString)
