@@ -2,16 +2,18 @@
 currentdir=$(pwd)
 if [[ $currentdir =~ "tests" ]]
 then
-    dir=../src
+    srcdir=../src
+    testsdir=.
 else
-    dir=./src
+    srcdir=./src
+    testsdir=./tests
 fi
 
 echo "Running tests..."
 getopts v flag
 
 echo "Running tests in source code"
-for f in $(find $dir -type f -name '*.py' -follow -print)
+for f in $(find $srcdir -type f -name '*.py' -follow -print)
 do
     python3 $f -$flag
 done
@@ -21,7 +23,7 @@ echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
   echo "Running test cases"
-  python3 testExamples.py
+  python3 $testsdir/testExamples.py
 fi
 
 echo "All tests completed!"

@@ -1,9 +1,13 @@
 import csv
 import sys
 import unittest
-sys.path.append('../src')
-
-examplesFile = "examples.csv"
+import os
+if 'tests' in os.getcwd():
+    sys.path.append('../src')
+    examplesFile = "examples.csv"
+else:
+    sys.path.append('./src')
+    examplesFile = "tests/examples.csv"
 
 from sariDateParser.dateParser import parse
 
